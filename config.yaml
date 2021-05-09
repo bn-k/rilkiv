@@ -1,0 +1,20 @@
+WebClientAddress: http://localhost:3000
+
+Db:
+  Port: 5432
+  Host: localhost
+  Password: insecure
+  Database: binaryx
+  User: binaryx
+
+Auth:
+  Secret: 69cq25vwpbykesj9qg6tc8bkwuqpnm38
+  Encoder: sn8rtqWLDMMdCqAajHVrGDNw5aiqYFUguM2tPv9JfJj2L5QdNSgXHDVTANU5VGfS
+  ExpireTime: 24h
+
+Email:
+  Address: sharespot.pt@zohomail.eu
+  Username: sharespot.pt@zohomail.eu
+  Password: YXxEcTpd2oMwFFYv
+  SMTP: smtp.zoho.eu
+  Port: 587

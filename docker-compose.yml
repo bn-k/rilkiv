@@ -1,0 +1,48 @@
+version: '3.5'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: binaryx
+      POSTGRES_PASSWORD: insecure
+      POSTGRES_DB: binaryx
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: geral@sharespot.pt
+      PGADMIN_DEFAULT_PASSWORD: insecure
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/root/.pgadmin
+
+    ports:
+      - "2222:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  cache:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    command: redis-server --requirepass insecure
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
