@@ -4,14 +4,20 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"github.com/brianvoe/gofakeit/v6"
 	"math/rand"
 	"net"
+	"net/http"
 	"strings"
 	"time"
 
 	"github.com/bn-k/rilkiv/exchange"
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
+)
+
+const (
+	initialBalance = 100
 )
 
 var validate *validator.Validate
@@ -28,7 +34,7 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-func (h *Handlers) fmtRegister(ctx context.Context, req UserRegister) (exchange.User, error) {
+func (h *Handlers) fmtUser(ctx context.Context, req UserRegister, r *http.Request) (exchange.User, error) {
 	res := exchange.User{}
 	err := validate.Struct(req)
 	if err != nil {
@@ -40,7 +46,7 @@ func (h *Handlers) fmtRegister(ctx context.Context, req UserRegister) (exchange.
 		return res, err
 	}
 
-	confirmToken := base64.URLEncoding.EncodeToString([]byte(req.Email +h.Conf.Auth.Secret))
+	confirmToken := base64.URLEncoding.EncodeToString([]byte(req.Email + h.Conf.Auth.Secret))
 	password, err := hashPassword(req.Password)
 	if err != nil {
 		return res, err
@@ -50,10 +56,25 @@ func (h *Handlers) fmtRegister(ctx context.Context, req UserRegister) (exchange.
 		Email:     req.Email,
 		Firstname: req.FirstName,
 		Lastname:  req.LastName,
-		Auth:      exchange.Auth{
+		Role:      exchange.Client,
+		Auth: exchange.Auth{
 			Password:     password,
 			ConfirmToken: confirmToken,
 			Confirmed:    false,
+		},
+		Wallets: []exchange.Wallet{
+			{
+				Address:  gofakeit.BitcoinAddress(),
+				Currency: exchange.BTC,
+			},
+			{
+				Address:  gofakeit.BitcoinAddress(),
+				Currency: exchange.ETH,
+			},
+		},
+		Registration: exchange.Registration{
+			IPAddress: r.RemoteAddr,
+			UserAgent: r.UserAgent(),
 		},
 	}, nil
 }

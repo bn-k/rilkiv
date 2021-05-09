@@ -32,12 +32,12 @@ func (h *Handlers) Register(ctx context.Context) http.HandlerFunc {
 			return
 		}
 
-		user, err := h.fmtRegister(ctx, UserRegister{
+		user, err := h.fmtUser(ctx, UserRegister{
 			Email:     req.Email,
 			FirstName: req.Firstname,
 			LastName:  req.Lastname,
 			Password:  req.Password,
-		})
+		}, r)
 		if err != nil {
 			h.Log.Debug("cannot register user", zap.Error(err))
 			w.WriteHeader(http.StatusBadRequest)
@@ -46,7 +46,7 @@ func (h *Handlers) Register(ctx context.Context) http.HandlerFunc {
 
 		_, err = h.DB.CreateUser(ctx, user)
 		if err != nil {
-			h.Log.Debug("cannot register user", zap.Error(err))
+			h.Log.Debug("cannot create user", zap.Error(err))
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}

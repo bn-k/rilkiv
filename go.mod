@@ -3,6 +3,8 @@ module github.com/bn-k/rilkiv
 go 1.16
 
 require (
+	github.com/brianvoe/gofakeit/v6 v6.4.1 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-chi/chi/v5 v5.0.3
 	github.com/go-chi/docgen v1.2.0
 	github.com/go-chi/jwtauth/v5 v5.0.1 // indirect

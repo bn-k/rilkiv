@@ -1,8 +1,8 @@
-WebClientAddress: http://localhost:3000
+WebClientAddress: http://localhost:8080
 
 Db:
   Port: 5432
-  Host: localhost
+  Host: postgres
   Password: insecure
   Database: binaryx
   User: binaryx
@@ -13,8 +13,4 @@ Auth:
   ExpireTime: 24h
 
 Email:
-  Address: sharespot.pt@zohomail.eu
-  Username: sharespot.pt@zohomail.eu
-  Password: YXxEcTpd2oMwFFYv
-  SMTP: smtp.zoho.eu
   Port: 587

@@ -1,11 +1,8 @@
-account:
-	go run api.go account
-
-notify:
-	go run api.go account
-
-env:
+start:
 	docker-compose up -d
+	docker-compose logs -f --tail 4000
 
-gen:
-	go generate ./...
+
+clean:
+	docker-compose down --rmi local
+	docker volume prune

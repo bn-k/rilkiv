@@ -8,6 +8,7 @@ import (
 )
 
 var verb bool
+var doc bool
 
 var rootCmd = &cobra.Command{
 	Use:   "api",
@@ -23,6 +24,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().BoolVar(&verb, "verb", false, "database verbosity")
+	rootCmd.PersistentFlags().BoolVar(&doc, "doc", false, "generate doc")
 }
 
 // initConfig reads in config file and ENV variables if set.

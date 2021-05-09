@@ -12,9 +12,11 @@ import (
 type LoginResponse struct {
 	Bearer string `json:"bearer"`
 }
+
 func (b LoginResponse) Render(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
+
 type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -42,7 +44,7 @@ func (h *Handlers) Login(ctx context.Context) http.HandlerFunc {
 			return
 		}
 
-		_, tks, err  := tokenAuth.Encode(map[string]interface{}{"user_id": u.ID, "conf": u.Confirmed})
+		_, tks, err := tokenAuth.Encode(map[string]interface{}{"user_id": u.ID, "conf": u.Confirmed, "role": u.Role})
 		if err != nil {
 			h.Log.Error("cannot encode ", zap.Error(err))
 		}

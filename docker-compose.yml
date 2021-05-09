@@ -1,6 +1,19 @@
 version: '3.5'
 
 services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.account
+    depends_on:
+      - postgres
+      - cache
+    networks:
+      - postgres
+    ports:
+    - 8080:8080
+    command: /app/api account
+
   postgres:
     image: postgres
     environment:
